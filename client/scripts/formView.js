@@ -12,8 +12,11 @@ var FormView = {
     var object = {};
     object.username = App.username;
     object.text = document.getElementById('message').value;
+    object.roomname = $('#rooms select').value;
+    console.log(object.roomname)
     Parse.create(object);
-    console.log(event);
+    document.getElementById('message').value = '';
+    App.initialize();
   },
 
   setStatus: function(active) {

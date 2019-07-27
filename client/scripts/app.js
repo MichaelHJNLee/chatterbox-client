@@ -11,7 +11,7 @@ var App = {
     MessagesView.initialize();
     // Fetch initial batch of messages
     App.startSpinner();
-    setInterval(App.fetch(App.stopSpinner), 5000);
+    App.fetch(App.stopSpinner);
     // setInterval(Parse.readAll((data)=> {
     //   MessagesView.render(data);
     // }, 5000))
