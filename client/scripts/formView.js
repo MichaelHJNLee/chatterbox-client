@@ -4,6 +4,10 @@ var FormView = {
 
   initialize: function() {
     FormView.$form.on('submit', FormView.handleSubmit);
+    $('#main').append('<button id="joinRoom">Join Room</button>')
+    $('#joinRoom').on('click', function(){
+      App.fetch();
+    })
   },
 
   handleSubmit: function(event) {
@@ -14,12 +18,12 @@ var FormView = {
     object.text = document.getElementById('message').value;
     if ($('#rooms select')[0][$('#rooms select')[0].selectedIndex] !== undefined) {
       object.roomname = $('#rooms select')[0][$('#rooms select')[0].selectedIndex].value;
+    } else {
+      object.roomname = undefined;
     }
-
-    console.log(object.roomname);
     Parse.create(object);
     document.getElementById('message').value = '';
-    App.initialize();
+    App.fetch();
   },
 
   setStatus: function(active) {

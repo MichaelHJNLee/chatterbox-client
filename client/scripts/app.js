@@ -5,10 +5,13 @@ var App = {
   username: 'anonymous',
 
   reload: function(){
-    $.get(`${Parse.server}`, function(data) {
-      //$('#chats').html('');
-      MessagesView.renderMessage(data);
-    })
+    setInterval(function(){
+      App.fetch(App.stopSpinner);
+    }, 8000)
+    // $.get(`${Parse.server}`, function(data) {
+    //   //$('#chats').html('');
+    //   MessagesView.renderMessage(data);
+    // })
     // $('#chats').load(`${Parse.server}`, function(data) {
     //   // $('#chats').html('');
     //   MessagesView.renderMessage(data);
@@ -23,17 +26,50 @@ var App = {
     // Fetch initial batch of messages
     App.startSpinner();
     App.fetch(App.stopSpinner);
-    setInterval(function(){
-      App.reload()
-    }, 5000)
-
+    App.reload();
   },
 
   fetch: function(callback = ()=>{}) {
-
+    var lastID;
     Parse.readAll((data) => {
-      MessagesView.renderMessage(data);
+      var roomLoad = false;
+      if (!roomLoad) {
+        Rooms.load(data);
+        roomLoad = true;
+      }
+      if (!$('#chats')[0].childNodes){
+        MessagesView.renderMessage(data);
+        //Rooms.load(data);
+        //lastID = data.results[0].objectId;
+      } else {
+        $('#chats').html('');
+        MessagesView.renderMessage(data);
+        for (var i = 0; i < $('.username').length; i++) {
+          if (MessageView.friends.includes($('.username')[i].textContent)) {
+            $('.username')[i].style.fontSize = '20px';
+            $('.username')[i].style.color = 'pink';
+          }
+        }
+        for (var i = 0; i < $('.roomname').length; i++) {
+
+        }
+
+
+        // var storage = [];
+        // for (var i = 0; i < data.results.length; i++) {
+        //   if (data.results[i].objectId !== lastID) {
+        //     storage.push(data.results[i]);
+        //   } else if (data.results[i].objectId === lastID) {
+        //     break;
+        //   }
+        // }
+        // lastID = storage[0].objectId;
+        // for (var i = storage.length - 1; i >= 0; i--) {
+        //   MessagesView.renderMessage(storage[i]);
+        // }
+      }
     })
+
     callback();
     },
 

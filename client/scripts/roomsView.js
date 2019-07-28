@@ -12,15 +12,15 @@ var RoomsView = {
     //   $('#rooms').append('<input type="text" name="newroom" id="newroom"/>');
     //   this.flag = true;
     // }
-    $(this.$button).on('click', function() {
-        RoomsView.renderRoom(document.getElementById('message').value);
-        document.getElementById('message').value = '';
-    })
+    Rooms.add();
+    //Rooms.load();
   },
 
   renderRoom: function(roomname) {
-    this.$select.append(`<option value="${roomname}">${roomname}</option>`);
-    $('#rooms select')[0].selectedIndex = $('#rooms select')[0].childElementCount - 1;
+    if (roomname !== '') {
+      this.$select.append(`<option value="${roomname}">${roomname}</option>`);
+      $('#rooms select')[0].selectedIndex = $('#rooms select')[0].childElementCount - 1;
+    }
     // this.$select.append(`<option value="${document.getElementById('newroom').value}">${document.getElementById('newroom').value}</option>`)
   }
 
